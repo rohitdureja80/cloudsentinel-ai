@@ -1,0 +1,34 @@
+name: Terraform Validation
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate Terraform
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.17.1"
+      - name: Check formatting
+        shell: pwsh
+        run: terraform fmt -check -recursive
+
+      - name: Initialize without backend
+        shell: pwsh
+        run: terraform init -backend=false -input=false
+
+      - name: Validate configuration
+        shell: pwsh
+        run: terraform validate
