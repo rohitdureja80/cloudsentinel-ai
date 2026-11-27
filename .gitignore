@@ -1,0 +1,22 @@
+# Downloaded providers and local backend metadata
+**/.terraform/*
+
+# State and state backups
+*.tfstate
+*.tfstate.*
+
+# Saved plans — use this naming convention
+tfplan
+*.tfplan
+
+# Private local configuration
+environments/dev.psd1
+terraform.tfvars
+*.auto.tfvars
+
+# Crash logs
+crash.log
+crash.*.log
+
+# macOS metadata
+.DS_Store
