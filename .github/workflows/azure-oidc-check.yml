@@ -1,0 +1,37 @@
+name: Azure OIDC Check
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  login:
+    name: Verify Azure login
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    environment: dev-plan
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Sign in to Azure
+        uses: azure/login@v3
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Verify authenticated session
+        shell: pwsh
+        run: |
+          az account show --query state --output tsv
+          if ($LASTEXITCODE -ne 0) {
+              throw "Unable to verify the Azure session."
+          }

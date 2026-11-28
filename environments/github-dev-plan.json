@@ -1,0 +1,9 @@
+{
+  "name": "github-dev-plan",
+  "issuer": "https://token.actions.githubusercontent.com",
+  "subject": "repo:rohitdureja80/cloudsentinel-ai:environment:dev-plan",
+  "description": "GitHub Actions authentication for development Terraform plans",
+  "audiences": [
+    "api://AzureADTokenExchange"
+  ]
+}
